@@ -1,0 +1,12 @@
+gcloud dataproc clusters create cluster-logs3 \
+    --enable-component-gateway --region us-central1 \
+    --subnet default --no-address --master-machine-type n2d-standard-2 \
+    --master-boot-disk-type pd-balanced --master-boot-disk-size 500 --num-workers 4 \
+    --worker-machine-type n2d-standard-2 --worker-boot-disk-type pd-balanced \
+    --worker-boot-disk-size 500 --image-version 2.2-debian12 \
+    --properties spark:spark.dataproc.enhanced.optimizer.enabled=true,spark:spark.dataproc.enhanced.execution.enabled=true \
+    --optional-components JUPYTER --project sada-rahulvangala-sandbox \
+    --max-idle=1h \
+    --metadata PIP_PACKAGES="rapidgzip bigframes" \
+    --initialization-actions gs://goog-dataproc-initialization-actions-us-central1/python/pip-install.sh \
+    --properties spark:spark.jars="gs://spark-lib/biglake/biglake-catalog-iceberg1.2.0-0.1.1-with-dependencies.jar,"   
